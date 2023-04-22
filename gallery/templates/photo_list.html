@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+{% for photo in object_list %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100">
+            <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.caption }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ photo.caption }}</h5>
+                <p class="card-text">{{ photo.author }}</p>
+                <a href="{% url 'photo_detail' photo.pk %}">Подробнее</a>
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'add_favorite' photo.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Добавить в избранное</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">{{ photo.created_at }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<p>Нет фотографий</p>
+{% endfor %}
+{% endblock %}

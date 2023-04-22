@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Фотографии пользователя {{ user }}</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for photo in user.photo_set.all %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.caption }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo.caption }}</h5>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">{{ photo.created_at }}</small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p>Нет избранных фотографий.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

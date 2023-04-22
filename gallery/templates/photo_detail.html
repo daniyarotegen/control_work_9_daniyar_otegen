@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.caption }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ object.caption }}</h5>
+                <p class="card-text">{{ object.author }}</p>
+                <p>В избранном у пользователей:</p>
+                <ul>
+                    {% for user in object.favorite_users.all %}
+                        <li><a href="{% url 'user_detail' user.pk %}">{{ user.username }}</a></li>
+                    {% empty %}
+                        <li>Нет пользователей, добавивших данную фотографию в избранное.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">{{ object.created_at }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
