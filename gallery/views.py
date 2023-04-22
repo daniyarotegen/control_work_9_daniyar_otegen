@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -27,7 +27,7 @@ class PhotoCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PhotoUpdateView(LoginRequiredMixin, UpdateView):
+class PhotoUpdateView(LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
     model = Photo
     template_name = 'photo_form.html'
     fields = ['image', 'caption']
@@ -38,8 +38,15 @@ class PhotoUpdateView(LoginRequiredMixin, UpdateView):
             return redirect(obj.get_absolute_url())
         return super().dispatch(request, *args, **kwargs)
 
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user or self.request.user.has_perm('gallery.change_photo')
 
-class PhotoDeleteView(LoginRequiredMixin, DeleteView):
+    def handle_no_permission(self):
+        return redirect(self.get_object().get_absolute_url())
+
+
+class PhotoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Photo
     template_name = 'photo_confirm_delete.html'
     success_url = reverse_lazy('home')
@@ -49,6 +56,13 @@ class PhotoDeleteView(LoginRequiredMixin, DeleteView):
         if obj.author != self.request.user:
             return redirect(obj.get_absolute_url())
         return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user or self.request.user.has_perm('gallery.delete_photo')
+
+    def handle_no_permission(self):
+        return redirect(self.get_object().get_absolute_url())
 
 
 class AddFavoriteView(LoginRequiredMixin, UpdateView):
