@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'gallery',
     'bootstrap5',
     'accounts',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [

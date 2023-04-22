@@ -26,4 +26,5 @@ urlpatterns = [
     path('', PhotoListView.as_view(), name='home'),
     path('gallery/', include('gallery.urls')),
     path('accounts/', include('accounts.urls')),
+    path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
