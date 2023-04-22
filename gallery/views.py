@@ -8,7 +8,7 @@ from gallery.models import Photo
 
 class PhotoListView(ListView):
     model = Photo
-    template_name = 'photo_list.html'
+    template_name = 'home.html'
     ordering = ['-created_at']
 
 
@@ -42,7 +42,7 @@ class PhotoUpdateView(LoginRequiredMixin, UpdateView):
 class PhotoDeleteView(LoginRequiredMixin, DeleteView):
     model = Photo
     template_name = 'photo_confirm_delete.html'
-    success_url = reverse_lazy('photo_list')
+    success_url = reverse_lazy('home')
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()

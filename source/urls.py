@@ -23,7 +23,7 @@ from gallery.views import PhotoListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PhotoListView.as_view(), name='photo_list'),
+    path('', PhotoListView.as_view(), name='home'),
     path('gallery/', include('gallery.urls')),
     path('accounts/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,9 +3,9 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <h2>Фотографии пользователя {{ user }}</h2>
+        <h2>Избранные фотографии пользователя {{ user }}</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for photo in user.photo_set.all %}
+            {% for photo in user.favorite_photos.all %}
             <div class="col">
                 <div class="card">
                     <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.caption }}">

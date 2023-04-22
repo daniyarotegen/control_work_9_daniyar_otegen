@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+    <h2>Регистрация</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>.</p>
+{% endblock %}
